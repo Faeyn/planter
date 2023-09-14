@@ -1,8 +1,6 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://hta_db:5432/java_hta_db
+    url: jdbc:postgresql://localhost:5432/java_hta_db
     password: admin
-  jpa:
-    hibernate:
-      ddl-auto: create
+    username: admin
