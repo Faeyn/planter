@@ -4,3 +4,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/java_hta_db
     password: admin
     username: admin
+  jpa:
+    hibernate:
+      ddl-auto: create

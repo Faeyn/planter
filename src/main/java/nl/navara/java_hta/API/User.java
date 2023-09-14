@@ -1,22 +1,18 @@
 package nl.navara.java_hta.API;
 
-
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "users")
 public class User {
-
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "e_mail", nullable = false)
     private String email;
 
+    // Constructors, Getters, and Setters
     public Long getId() {
         return id;
     }
@@ -24,7 +20,6 @@ public class User {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getName() {
         return name;
@@ -42,4 +37,3 @@ public class User {
         this.email = email;
     }
 }
-
