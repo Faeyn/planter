@@ -12,7 +12,18 @@ public class UserService {
     private UserRepository userRepository;
 
     // Create a new user
-    public User createUser(User user) {
+    public User createUser(UserDto userDto) {
+        User user = new User();
+        String name = userDto.getUsername();
+        String email = userDto.getEmail();
+
+        if (name.length() < 2) {
+            
+        }
+
+        user.setName(name);
+        user.setEmail(email);
+
         return userRepository.save(user);
     }
 

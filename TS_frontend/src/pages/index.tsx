@@ -1,12 +1,15 @@
+import Layout from "@/app/components/layout";
 import React from "react";
-import type { NextPage } from "next";
-import HeadComponent from "../components/header";
 
-const Home: NextPage = () => (
-  <div>
-    <HeadComponent />
-    <div className="flex h-screen flex-col bg-black text-white">Hello</div>
-  </div>
-);
+const Home: React.FC = () => {
+  return (
+    <Layout>
+      <h1>Java back-end testing</h1>
+      <div>
+        <h2>Add a new user</h2>
+      </div>
+    </Layout>
+  );
+};
 
 export default Home;

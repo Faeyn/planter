@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/users")
 public class UserController {
     @Autowired
@@ -14,8 +15,8 @@ public class UserController {
 
     // Create a new user
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public User createUser(@RequestBody UserDto userDto) {
+        return userService.createUser(userDto);
     }
 
     // Get all users
