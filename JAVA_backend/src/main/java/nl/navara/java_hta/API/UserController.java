@@ -15,8 +15,8 @@ public class UserController {
 
     // Create a new user
     @PostMapping
-    public User createUser(@RequestBody UserDto userDto) {
-        return userService.createUser(userDto);
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user);
     }
 
     // Get all users

@@ -8,10 +8,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        navaraNavy: '#000b3b',
-        navaraBlue: '#3665ff',
-      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

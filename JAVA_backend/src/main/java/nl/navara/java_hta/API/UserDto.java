@@ -1,25 +1,25 @@
 package nl.navara.java_hta.API;
 
 public class UserDto {
-    private String username;
+    private String name;
     private String email;
 
     // Constructors
     public UserDto() {
     }
 
-    public UserDto(String username, String email) {
-        this.username = username;
+    public UserDto(String name, String email) {
+        this.name = name;
         this.email = email;
     }
 
     // Getters and setters
     public String getUsername() {
-        return username;
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
