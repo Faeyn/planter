@@ -1,6 +1,7 @@
 package nl.navara.java_hta.API;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class UserController {
 
     // Create a new user
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public ResponseEntity<String> createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
@@ -33,7 +34,7 @@ public class UserController {
 
     // Update user by ID
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
         return userService.updateUser(id, userDetails);
     }
 

@@ -1,6 +1,8 @@
 package nl.navara.java_hta.API;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,20 +13,27 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // Create a new user
-    public User createUser(User user) {
-//        User user = new User();
-//        String name = userDto.getUsername();
-//        String email = userDto.getEmail();
-//
-////        if (name.length() < 2) {
-////
-////        }
-//
-//        user.setName(name);
-//        user.setEmail(email);
+    private boolean emailExists(String email) {
+        boolean exists = userRepository.existsByEmail(email);
+        if (!exists) {
+            System.out.println("Email is not unique");
+        }
+        return userRepository.existsByEmail(email);
+    }
 
-        return userRepository.save(user);
+    // Create a new user
+    public ResponseEntity<String> createUser(User user) {
+
+        if (user.getName().length() < 2) {
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name is too short");
+        }
+
+        if (emailExists(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exist");
+        }
+
+        userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
     }
 
     // Get all users
@@ -38,13 +47,20 @@ public class UserService {
     }
 
     // Update user
-    public User updateUser(Long id, User userDetails) {
+    public ResponseEntity<String> updateUser(Long id, User userDetails) {
+        if (emailExists(userDetails.getEmail())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exist");
+        }
+
         Optional<User> user = userRepository.findById(id);
+
+
         if (user.isPresent()) {
             User existingUser = user.get();
             existingUser.setName(userDetails.getName());
             existingUser.setEmail(userDetails.getEmail());
-            return userRepository.save(existingUser);
+            userRepository.save(existingUser);
+            return ResponseEntity.status(HttpStatus.OK).body("User updated");
         }
         return null;
     }
@@ -60,4 +76,8 @@ public class UserService {
     }
 
     // Other business logic related to users
+    public boolean checkEmailExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
 }
