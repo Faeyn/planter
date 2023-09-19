@@ -1,7 +1,7 @@
-import { User } from "@/pages";
 import { FetchWrapper } from "./fetchWrapper";
 import { constants } from "buffer";
 import Button from "./button";
+import { User } from "@/pages/api/interface";
 
 const BACKEND_URL = "http://localhost:8080/users";
 

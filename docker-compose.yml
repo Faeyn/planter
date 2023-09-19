@@ -1,16 +1,16 @@
 version: '3.8'
 
 services:
-  hta_db:
+  planter_db:
     image: postgres:latest
     restart: always
-    container_name: hta_db
+    container_name: planter_db
     environment:
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: java_hta_db
+      POSTGRES_DB: planter_db
       POSTGRES_USER: admin
     volumes:
-      - hta_pg:/var/lib/postgresql/data
+      - planter_db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     expose:
@@ -29,5 +29,5 @@ services:
 #      - "8080:8080"
 
 volumes:
-  hta_pg:
+  planter_db:
 
