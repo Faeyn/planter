@@ -1,9 +1,11 @@
-import { FetchWrapper } from "@/components/fetchWrapper";
+import { FetchWrapper } from "@/utils/fetchWrapper";
 import NextAuth, { AuthOptions, User } from "next-auth";
 import Google from "next-auth/providers/google"
+import { serialize } from "v8";
 
-const BACKEND_URL = "http://localhost:3000/users"
+const BACKEND_URL = "http://localhost:8080/users"
 const userFetch = new FetchWrapper(BACKEND_URL)
+const checkUserAPI = new FetchWrapper(BACKEND_URL + "/check_email" )
 
 export const authOptions: AuthOptions = {
     providers: [
@@ -14,21 +16,20 @@ export const authOptions: AuthOptions = {
     ],
     callbacks: {
         async signIn({user}) {
-            if (!user.email?.endsWith("@navara.nl")) {return false}
-            
-            userFetch.setBody(user)
+            const {name, email, image} = user
+            if (!email?.endsWith("@navara.nl")) {return false}
 
-           return false
+            checkUserAPI.setBody(email)
+            const existingUser = await checkUserAPI.postRequest()
+
+            if (!existingUser) {
+                userFetch.setBody({name, email, image} as User)
+                userFetch.postRequest()
+            }
+
+           return true
         },
-        async redirect({url, baseUrl}) {
-            console.log(url, baseUrl)
-            return url
-        }
     },
-    events: {
-        
-    }
-    
 }
 
 export default NextAuth(authOptions)

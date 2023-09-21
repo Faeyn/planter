@@ -1,4 +1,4 @@
-package nl.navara.java_hta.API;
+package nl.navara.java_hta.API.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,16 +38,14 @@ public class UserController {
         return userService.updateUser(id, userDetails);
     }
 
-    // Delete all users
-    @DeleteMapping
-    public String deleteAllUsers() {
-        userService.deleteAllUsers();
-        return "All users have been deleted successfully.";
-    }
-
     // Delete user by ID
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @PostMapping("/check_email")
+    public boolean existEmail(@RequestBody String email) {
+        return userService.checkEmailExists(email);
     }
 }

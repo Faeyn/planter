@@ -1,4 +1,4 @@
-package nl.navara.java_hta.API;
+package nl.navara.java_hta.API.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

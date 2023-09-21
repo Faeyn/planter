@@ -1,14 +1,14 @@
-import { FetchWrapper } from "./fetchWrapper";
-import { constants } from "buffer";
-import Button from "./button";
-import { User } from "@/pages/api/interface";
+import { FetchWrapper } from "../utils/fetchWrapper"
+import { constants } from "buffer"
+import Button from "./elements/button"
+import { User } from "@/pages/api/interface"
 
-const BACKEND_URL = "http://localhost:8080/users";
+const BACKEND_URL = "http://localhost:8080/users"
 
 interface UserCardProps {
-  user: User;
-  updateUserInfo: User;
-  setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  user: User
+  updateUserInfo: User
+  setRefresh: React.Dispatch<React.SetStateAction<number>>
 }
 
 const UserCard: React.FC<UserCardProps> = ({
@@ -16,23 +16,23 @@ const UserCard: React.FC<UserCardProps> = ({
   updateUserInfo,
   setRefresh,
 }) => {
-  const { id, name, email } = user;
+  const { id, name, email } = user
 
-  const adress = `${BACKEND_URL}/${id}`;
-  const userFetch = new FetchWrapper(adress);
+  const adress = `${BACKEND_URL}/${id}`
+  const userFetch = new FetchWrapper(adress)
 
   const updateUser = () => {
-    userFetch.setBody(updateUserInfo);
+    userFetch.setBody(updateUserInfo)
     userFetch.putRequest().then(() => {
-      setRefresh((prevRefresh) => prevRefresh + 1);
-    });
-  };
+      setRefresh((prevRefresh) => prevRefresh + 1)
+    })
+  }
 
   const deleteUser = async () => {
     userFetch.deleteRequest().then(() => {
-      setRefresh((prevRefresh) => prevRefresh + 1);
-    });
-  };
+      setRefresh((prevRefresh) => prevRefresh + 1)
+    })
+  }
 
   return (
     <div className="flex py-1">
@@ -40,7 +40,7 @@ const UserCard: React.FC<UserCardProps> = ({
       <Button text="update" cssColor="bg-green-500" onClick={updateUser} />
       {name} : {email}
     </div>
-  );
-};
+  )
+}
 
-export default UserCard;
+export default UserCard

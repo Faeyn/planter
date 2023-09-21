@@ -1,4 +1,4 @@
-package nl.navara.java_hta.API;
+package nl.navara.java_hta.API.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

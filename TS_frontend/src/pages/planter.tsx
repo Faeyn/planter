@@ -1,117 +1,92 @@
-import Button from "@/components/button";
-import { FetchWrapper } from "@/components/fetchWrapper";
-import UserCard from "@/components/userCard";
-import { useEffect, useState } from "react";
-import { User } from "./api/interface";
+import type { NextPage } from "next"
+import PlantCard from "@/components/planter/PlantCard"
+import PlantIndex from "@/components/planter/PlantIndex"
+import LayoutSection from "@/components/layout/LayoutSection"
+import { createContext, useEffect, useState } from "react"
+import { PlantEditor } from "../components/planter/PlantEditor"
+import { PlantData, initialPlantData } from "./api/interface"
+import { FetchWrapper } from "@/utils/fetchWrapper"
 
-const BACKEND_URL = "http://localhost:8080/users";
+const BACKEND_URL = "http://localhost:8080/plant"
 
-enum InputField {
-  name = "NAME",
-  email = "EMAIL",
+export enum PageState {
+  INITIAL,
+  DETAILS,
+  EDIT_PLANT,
 }
 
-const userFetch = new FetchWrapper(BACKEND_URL);
+interface PlanterContextInerface {
+  pageState: PageState
+  setPageState: React.Dispatch<React.SetStateAction<PageState>>
+  plantFocus: PlantData
+  setPlantFocus: React.Dispatch<React.SetStateAction<PlantData>>
+  plants: PlantData[]
+  setPlants: React.Dispatch<React.SetStateAction<PlantData[]>>
+}
 
-export default function Home() {
-  const [data, setData] = useState<Array<User>>([]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [refresh, setRefresh] = useState(0);
+export const PlanterContext = createContext<PlanterContextInerface>({
+  pageState: PageState.DETAILS,
+  setPageState: () => {},
+  plantFocus: initialPlantData,
+  setPlantFocus: () => {},
+  plants: [],
+  setPlants: () => {},
+})
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    typeInput: InputField
-  ) => {
-    const inputValue = e.target.value;
-    if (typeInput === InputField.email) {
-      setEmail(inputValue);
-    } else if (typeInput === InputField.name) {
-      setName(inputValue);
-    }
-  };
+const Planter: NextPage = () => {
+  const [pageState, setPageState] = useState<PageState>(PageState.INITIAL)
+  const [plantFocus, setPlantFocus] = useState<PlantData>(initialPlantData)
+  const [plants, setPlants] = useState<PlantData[]>([])
 
-  const createNewUser = async () => {
-    try {
-      const userInput: User = { name, email };
-      const body = JSON.stringify(userInput);
+  // Define a mapping of pageState values to components
+  const pageStateComponentMap = {
+    [PageState.INITIAL]: <LayoutSection />,
+    [PageState.DETAILS]: <PlantCard />,
+    [PageState.EDIT_PLANT]: <PlantEditor />,
+  }
 
-      const requestOptions: RequestInit = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body,
-      };
-
-      const response = await fetch(BACKEND_URL, requestOptions);
-
-      console.log(await response.body);
-
-      if (response.ok) {
-        console.log("Post request was successful!");
-      } else {
-        console.error(`Post request failed with status ${response.status}`);
-      }
-    } catch (error) {
-      console.error("An error occured:", error);
-    }
-    setRefresh(refresh + 1);
-  };
-
-  const fetchData = () => {
-    fetch(BACKEND_URL)
-      .then((response) => {
-        if (response.ok === true) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => console.log("Error occured", error));
-  };
+  // Render the component based on the pageState
+  const renderedComponent = pageStateComponentMap[pageState] || null
 
   useEffect(() => {
-    fetchData();
-  }, [refresh]);
+    async function getPlantData() {
+      const plantFetch = new FetchWrapper(BACKEND_URL)
+      plantFetch.getRequest().then((data) => {
+        setPlants(data)
+      })
+    }
+
+    const handleEscapeKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setPageState(PageState.INITIAL)
+      }
+    }
+
+    getPlantData()
+
+    window.addEventListener("keydown", handleEscapeKeyPress)
+    return () => {
+      window.removeEventListener("keydown", handleEscapeKeyPress)
+    }
+  }, [pageState, plantFocus])
 
   return (
-    <main className={"flex flex-col justify-center px-5"}>
-      <div>
-        <h1>Java back-end testing</h1>
-      </div>
-      <div>
-        <h2> Add a new user</h2>
-        <div className={"pb-5"}>
-          <input
-            className="border border-black"
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => handleChange(e, InputField.name)}
-          />{" "}
-          <input
-            className="border border-black"
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => handleChange(e, InputField.email)}
-          />
-        </div>
-        <Button text="Create new user" onClick={createNewUser} />
-      </div>
-      <div>
-        <h2> Existing users</h2>
-        {data.map((user) => (
-          <UserCard
-            key={user.id}
-            user={user}
-            setRefresh={setRefresh}
-            updateUserInfo={{ name, email } as User}
-          />
-        ))}
-      </div>
-    </main>
-  );
+    <PlanterContext.Provider
+      value={{
+        pageState,
+        setPageState,
+        plantFocus,
+        setPlantFocus,
+        plants,
+        setPlants,
+      }}
+    >
+      <main className="flex justify-center">
+        {renderedComponent}
+        <PlantIndex />
+      </main>
+    </PlanterContext.Provider>
+  )
 }
+
+export default Planter

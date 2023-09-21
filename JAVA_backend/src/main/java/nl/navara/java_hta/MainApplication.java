@@ -1,11 +1,10 @@
 package nl.navara.java_hta;
 
-import nl.navara.java_hta.API.UserRepository;
+import nl.navara.java_hta.API.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 

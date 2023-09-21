@@ -13,6 +13,10 @@ const config: Config = {
       googleLoginHover: '0 0 3px 3px rgba(66,133,244,.3);',
       },
       colors: {
+        navaraRed: "#ff4254",
+        offwhite: "#F7F7F7",
+        plant: 'rgb(74, 222, 128)',
+        highlight: '#D8B4FE',
         navaraBlue: '#3665ff',
         navaraNavy: '#000b3b',
         googleBlue: '#5383EC',
