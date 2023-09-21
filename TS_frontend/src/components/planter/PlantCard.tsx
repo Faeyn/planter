@@ -22,28 +22,38 @@ export default function PlantCard() {
 
   return (
     <LayoutSection>
-      <div
-        onClick={() => {
-          setPageState(PageState.EDIT_PLANT)
-        }}
-        className="relative left-[120px] top-[30px] flex justify-center shadow-lg w-[30px] h-[30px] rounded-full bg-plant border border-black hover:bg-highlight"
-      >
-        <Image className="w-[60%]" src={edit} alt={"edit icon"} />
-      </div>
-      {plantImage()}
+      <PlantImage plantFocus={plantFocus} />
       <PlantDetails />
-      <WaterPlant onClick={handleOnClick} />
+      <div className="flex w-full h-[80%] items-center justify-evenly">
+        <WaterPlant onClick={handleOnClick} />
+        <EditButton />
+      </div>
     </LayoutSection>
   )
 }
-function plantImage() {
+
+const EditButton: React.FC = () => {
+  const { setPageState } = useContext(PlanterContext)
   return (
-    <div className="flex justify-center mt-[-40px] rounded-[20px] h-[300px] w-[300px]">
+    <div
+      onClick={() => {
+        setPageState(PageState.EDIT_PLANT)
+      }}
+      className="flex justify-center shadow-lg w-[100px] h-[100px] rounded-full bg-plant border border-black hover:bg-highlight"
+    >
+      <Image className="w-[60%]" src={edit} alt={"edit icon"} />
+    </div>
+  )
+}
+
+const PlantImage: React.FC<{ plantFocus: PlantData }> = ({ plantFocus }) => {
+  return (
+    <div className="flex justify-center mt-[20px]">
       <Image
-        className="w-[50%]"
-        src={svgPlant}
-        width={300}
-        height={300}
+        className="rounded-[20px] h-[280px]"
+        src={plantFocus.img ? plantFocus.img : svgPlant}
+        height={280}
+        width={280}
         alt={"plant"}
       />
     </div>
@@ -83,7 +93,7 @@ const WaterPlant: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="mt-[20px] flex justify-center shadow-lg w-[100px] h-[100px] rounded-full bg-navaraBlue border border-black hover:bg-highlight"
+      className="flex justify-center shadow-lg w-[100px] h-[100px] rounded-full bg-navaraBlue border border-black hover:bg-highlight"
     >
       <Image
         className="w-[75%]"

@@ -1,16 +1,19 @@
 import Image from "next/image"
 import svgPlant from "@/assets/plant.svg"
 import svgSave from "@/assets/save.svg"
+import skull from "@/assets/skull.svg"
 import Bar from "@/components/elements/bar"
 import LayoutSection from "@/components/layout/LayoutSection"
 import { FetchWrapper } from "../../utils/fetchWrapper"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { PageState, PlanterContext } from "@/pages/planter"
+import { PlantData, initialPlantData } from "@/pages/api/interface"
 
 const BACKEND_URL = "http://localhost:8080/plant"
 
 export const PlantEditor = () => {
-  const { plantFocus, setPlantFocus, setPageState } = useContext(PlanterContext)
+  const { plantFocus, setPlantFocus, pageState, setPageState } =
+    useContext(PlanterContext)
 
   const handleSubmit = async () => {
     const plantFetch = new FetchWrapper(BACKEND_URL)
@@ -20,13 +23,51 @@ export const PlantEditor = () => {
     setPageState(PageState.DETAILS)
   }
 
+  const handleDelete = async () => {
+    const confirmed = window.confirm("Weet je het zeker?")
+    if (confirmed) {
+      const plantFetch = new FetchWrapper(BACKEND_URL)
+      plantFetch.setBody(plantFocus)
+      await plantFetch.deleteRequest()
+      setPageState(PageState.INITIAL)
+    }
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0]
+      if (file) {
+        const reader = new FileReader()
+
+        reader.onload = (event) => {
+          if (event.target && typeof event.target.result === "string") {
+            const base64 = event.target.result
+            setPlantFocus({ ...plantFocus, img: base64 })
+          }
+        }
+
+        reader.readAsDataURL(file)
+      }
+    }
+  }
+
+  console.log(plantFocus.img)
+
   return (
     <LayoutSection>
-      <div className="flex justify-center">
+      <div className="flex relative justify-center">
         <Image
-          className="rounded-[20px] h-[300px] w-[50%]"
-          src={svgPlant}
+          className="rounded-[20px] h-[280px] mt-[20px]"
+          src={plantFocus.img ? plantFocus.img : svgPlant}
           alt={"plant"}
+          height={280}
+          width={280}
+        />
+        <input
+          type="file"
+          className="absolute top-[260px] w-[102px] border rounded-md focus:outline-none focus:ring-2 focus:ring-navaraBlue focus:border-transparent"
+          placeholder="file"
+          onChange={handleFileChange}
         />
       </div>
 
@@ -74,10 +115,17 @@ export const PlantEditor = () => {
           }
         />
       </div>
+      <div className="w-full flex justify-evenly">
+        <Bar cssColor="bg-plant" width={150} onClick={handleSubmit}>
+          <Image className={"h-[20px]"} src={svgSave} alt="save icon" />
+        </Bar>
 
-      <Bar cssColor="bg-green-400" width={150} onClick={handleSubmit}>
-        <Image className={"h-[20px]"} src={svgSave} alt="save icon" />
-      </Bar>
+        {pageState === PageState.EDIT_PLANT && (
+          <Bar cssColor="bg-navaraRed" width={150} onClick={handleDelete}>
+            <Image className={"h-[20px]"} src={skull} alt="skull icon" />
+          </Bar>
+        )}
+      </div>
     </LayoutSection>
   )
 }

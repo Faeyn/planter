@@ -6,6 +6,7 @@ export interface User {
 
 export interface PlantData{
   id?: number;
+  img?: string;
   dateField: string;
   type: string;
   locatie: string;
@@ -15,6 +16,7 @@ export interface PlantData{
 }
 
 export const initialPlantData: PlantData = {
+  img: "",
   dateField: "",
   type: "",
   locatie: "",

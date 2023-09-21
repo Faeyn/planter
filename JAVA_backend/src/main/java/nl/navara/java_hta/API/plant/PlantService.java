@@ -27,7 +27,6 @@ public class PlantService {
 
         plants.forEach((plant) -> {
             int daysLastWatered = (int) ChronoUnit.DAYS.between(plant.getLastWatered(), LocalDate.now());
-            System.out.println(daysLastWatered);
 
             int daysUntilWatering = plant.getFrequentie()  - daysLastWatered;
             plant.setDaysUntilWatering(daysUntilWatering);
@@ -49,4 +48,7 @@ public class PlantService {
 
         return this.getAllPlants();
     }
-}
+
+    public void deletePlant(Plant plant) {plantRepository.delete(plant);};
+
+    };

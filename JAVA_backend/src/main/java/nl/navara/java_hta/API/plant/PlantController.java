@@ -37,5 +37,9 @@ public class PlantController {
         return plantService.waterAllPlant(plants);
     }
 
+    @DeleteMapping
+    public void deletePlant(@RequestBody Plant plant) {
+        plantService.deletePlant(plant);
+    }
 
 }

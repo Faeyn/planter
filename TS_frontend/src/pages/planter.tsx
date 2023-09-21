@@ -13,6 +13,7 @@ export enum PageState {
   INITIAL,
   DETAILS,
   EDIT_PLANT,
+  NEW_PLANT,
 }
 
 interface PlanterContextInerface {
@@ -40,9 +41,10 @@ const Planter: NextPage = () => {
 
   // Define a mapping of pageState values to components
   const pageStateComponentMap = {
-    [PageState.INITIAL]: <LayoutSection />,
+    [PageState.INITIAL]: <div />,
     [PageState.DETAILS]: <PlantCard />,
     [PageState.EDIT_PLANT]: <PlantEditor />,
+    [PageState.NEW_PLANT]: <PlantEditor />,
   }
 
   // Render the component based on the pageState

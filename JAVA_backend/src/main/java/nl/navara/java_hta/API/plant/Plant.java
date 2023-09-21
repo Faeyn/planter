@@ -22,6 +22,9 @@ public class Plant {
     private int frequentie;
     private LocalDate lastWatered;
 
+    @Column(length=1000000)
+    private String img;
+
     @Transient
     private int daysUntilWatering;
 }

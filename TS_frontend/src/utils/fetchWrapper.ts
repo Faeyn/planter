@@ -27,6 +27,8 @@ export class FetchWrapper {
   deleteRequest(): Promise<Response | undefined> {
     const requestOptions: RequestInit = {
       method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: this.body,
     }
 
     return this.sendRequest(requestOptions)

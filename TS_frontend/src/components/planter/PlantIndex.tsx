@@ -82,7 +82,13 @@ const PlantIndexCard: React.FC<{ plant: PlantData }> = ({ plant }) => {
       }}
     >
       <div className="flex justify-center min-w-[100px] max-w-[100px] h-[100px] rounded-full bg-plant">
-        <Image className="w-[60%]" src={svgPlant} alt="plant icon" />
+        <Image
+          className="rounded-full"
+          src={plant.img ? plant.img : svgPlant}
+          width={100}
+          height={100}
+          alt="plant icon"
+        />
       </div>
       {waterBar(ratio, plant.water)}
     </IndexCard>
@@ -107,9 +113,6 @@ function waterBar(ratio: number, water: number) {
     90: "h-[90px] top-[10px]",
     100: "h-[100px] top-[0px]",
   }
-  console.log(ratio)
-  console.log(percentage)
-  console.log(barLayout[percentage])
 
   return (
     <div className="relative ml-[10px] w-[25px] h-[100px] ">
@@ -133,7 +136,7 @@ const AddPlant = () => {
     <IndexCard
       onClick={() => {
         setPlantFocus(initialPlantData)
-        setPageState(PageState.EDIT_PLANT)
+        setPageState(PageState.NEW_PLANT)
       }}
     >
       <div className="flex min-w-[100px] max-w-[100px] h-[100px] rounded-full bg-plant justify-center">
