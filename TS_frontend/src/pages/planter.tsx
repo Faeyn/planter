@@ -2,12 +2,10 @@ import type { NextPage } from "next"
 import PlantCard from "@/components/planter/PlantCard"
 import PlantIndex from "@/components/planter/PlantIndex"
 import LayoutSection from "@/components/layout/LayoutSection"
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useMemo, useState } from "react"
 import { PlantEditor } from "../components/planter/PlantEditor"
 import { PlantData, initialPlantData } from "./api/interface"
 import { FetchWrapper } from "@/utils/fetchWrapper"
-
-const BACKEND_URL = "http://localhost:8080/plant"
 
 export enum PageState {
   INITIAL,
@@ -52,7 +50,7 @@ const Planter: NextPage = () => {
 
   useEffect(() => {
     async function getPlantData() {
-      const plantFetch = new FetchWrapper(BACKEND_URL)
+      const plantFetch = new FetchWrapper("http://localhost:8080" + "/plant")
       plantFetch.getRequest().then((data) => {
         setPlants(data)
       })

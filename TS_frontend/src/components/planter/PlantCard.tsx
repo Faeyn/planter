@@ -8,13 +8,11 @@ import { useContext } from "react"
 import { PlantData } from "@/pages/api/interface"
 import { FetchWrapper } from "@/utils/fetchWrapper"
 
-const BACKEND_URL = "http://localhost:8080/plant"
-
 export default function PlantCard() {
   const { plantFocus, setPlantFocus, setPageState } = useContext(PlanterContext)
 
   const handleOnClick = async () => {
-    const plantFetch = new FetchWrapper(BACKEND_URL)
+    const plantFetch = new FetchWrapper("http://localhost:8080" + "/plant")
     plantFetch.setBody(plantFocus)
     const newPlant = await plantFetch.putRequest()
     setPlantFocus(newPlant)

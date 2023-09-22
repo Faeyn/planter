@@ -17,10 +17,14 @@ export class FetchWrapper {
     const requestOptions = {
       method: "GET",
     }
-
-    const response = this.sendRequest(requestOptions).then((response) =>
-      response?.json()
+    
+    console.log(this.adress)
+    const response = this.sendRequest(requestOptions).then((response) => {
+        console.log(response)
+       return response?.json()
+    }
     )
+
     return response
   }
 

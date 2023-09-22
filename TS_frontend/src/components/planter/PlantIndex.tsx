@@ -9,13 +9,11 @@ import Bar from "../elements/bar"
 import LayoutSection from "../layout/LayoutSection"
 import { FetchWrapper } from "@/utils/fetchWrapper"
 
-const BACKEND_URL = "http://localhost:8080/plant/all"
-
 const PlantIndex: React.FC = () => {
   const { plants, setPlants } = useContext(PlanterContext)
 
   const handleOnClick = async () => {
-    const plantFetch = new FetchWrapper(BACKEND_URL)
+    const plantFetch = new FetchWrapper("http://localhost:8080" + "/plant/all")
     plantFetch.setBody(plants)
     const newPlants = await plantFetch.putRequest()
     setPlants(newPlants)

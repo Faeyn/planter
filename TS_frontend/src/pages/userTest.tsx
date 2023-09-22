@@ -3,15 +3,14 @@ import { FetchWrapper } from "@/utils/fetchWrapper"
 import UserCard from "@/components/userCard"
 import { useEffect, useState } from "react"
 import { User } from "./api/interface"
-
-const BACKEND_URL = "http://localhost:8080/users"
+import LayoutSection from "@/components/layout/LayoutSection"
 
 enum InputField {
   name = "NAME",
   email = "EMAIL",
 }
 
-const userFetch = new FetchWrapper(BACKEND_URL)
+const userFetch = new FetchWrapper("http://localhost:8080" + "/users")
 
 export default function Home() {
   const [data, setData] = useState<Array<User>>([])
@@ -37,25 +36,12 @@ export default function Home() {
     setRefresh(refresh + 1)
   }
 
-  const fetchData = () => {
-    fetch(BACKEND_URL)
-      .then((response) => {
-        if (response.ok === true) {
-          return response.json()
-        }
-      })
-      .then((data) => {
-        setData(data)
-      })
-      .catch((error) => console.log("Error occured", error))
-  }
-
   useEffect(() => {
-    fetchData()
+    userFetch.getRequest()
   }, [refresh])
 
   return (
-    <main className={"flex flex-col justify-center px-5"}>
+    <LayoutSection>
       <div>
         <h1>Java back-end testing</h1>
       </div>
@@ -90,6 +76,6 @@ export default function Home() {
           />
         ))}
       </div>
-    </main>
+    </LayoutSection>
   )
 }

@@ -23,8 +23,7 @@ public class PlantController {
 
     @GetMapping
     public List<Plant> getAllPlants() {
-        var plants = plantService.getAllPlants();
-        return plants;
+        return plantService.getAllPlants();
     }
 
     @PutMapping

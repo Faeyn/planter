@@ -7,16 +7,13 @@ import LayoutSection from "@/components/layout/LayoutSection"
 import { FetchWrapper } from "../../utils/fetchWrapper"
 import { useContext, useEffect, useState } from "react"
 import { PageState, PlanterContext } from "@/pages/planter"
-import { PlantData, initialPlantData } from "@/pages/api/interface"
-
-const BACKEND_URL = "http://localhost:8080/plant"
 
 export const PlantEditor = () => {
   const { plantFocus, setPlantFocus, pageState, setPageState } =
     useContext(PlanterContext)
 
   const handleSubmit = async () => {
-    const plantFetch = new FetchWrapper(BACKEND_URL)
+    const plantFetch = new FetchWrapper("http://localhost:8080" + "/plant")
     plantFetch.setBody(plantFocus)
     const newPlant = await plantFetch.postRequest()
     setPlantFocus(newPlant)
@@ -26,7 +23,7 @@ export const PlantEditor = () => {
   const handleDelete = async () => {
     const confirmed = window.confirm("Weet je het zeker?")
     if (confirmed) {
-      const plantFetch = new FetchWrapper(BACKEND_URL)
+      const plantFetch = new FetchWrapper("http://localhost:8080" + "/plant")
       plantFetch.setBody(plantFocus)
       await plantFetch.deleteRequest()
       setPageState(PageState.INITIAL)
