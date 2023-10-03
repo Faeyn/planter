@@ -2,8 +2,6 @@ import { FetchWrapper } from "../utils/fetchWrapper"
 import Button from "./elements/button"
 import { User } from "@/pages/api/interface"
 
-const BACKEND_URL = "http://localhost:8080"
-
 interface UserCardProps {
   user: User
   updateUserInfo: User
@@ -17,7 +15,7 @@ const UserCard: React.FC<UserCardProps> = ({
 }) => {
   const { id, name, email } = user
 
-  const adress = `${BACKEND_URL}/users/${id}`
+  const adress = `${process.env.BACKEND_URL}/users/${id}`
   const userFetch = new FetchWrapper(adress)
 
   const updateUser = () => {

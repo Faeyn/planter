@@ -2,7 +2,7 @@ import { FetchWrapper } from "@/utils/fetchWrapper";
 import NextAuth, { AuthOptions, User } from "next-auth";
 import Google from "next-auth/providers/google"
 
-const userFetch = new FetchWrapper("http://localhost:8080" + "/users")
+const userFetch = new FetchWrapper(process.env.BACKEND_URL + "/users")
 
 export const authOptions: AuthOptions = {
     providers: [

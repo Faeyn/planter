@@ -50,7 +50,7 @@ const Planter: NextPage = () => {
 
   useEffect(() => {
     async function getPlantData() {
-      const plantFetch = new FetchWrapper("http://localhost:8080" + "/plant")
+      const plantFetch = new FetchWrapper(process.env.BACKEND_URL + "/plant")
       plantFetch.getRequest().then((data) => {
         setPlants(data)
       })

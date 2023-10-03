@@ -10,7 +10,7 @@ enum InputField {
   email = "EMAIL",
 }
 
-const userFetch = new FetchWrapper("http://localhost:8080" + "/users")
+const userFetch = new FetchWrapper(process.env.BACKEND_URL + "/users")
 
 export default function Home() {
   const [data, setData] = useState<Array<User>>([])
