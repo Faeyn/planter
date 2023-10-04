@@ -1,0 +1,1 @@
+FROM MAVEN:3.9.0- AS build
