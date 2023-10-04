@@ -1,9 +1,16 @@
-FROM eclipse-temurin:11-jdk as builder
+FROM eclipse-temurin:17-jdk
 
-COPY . .
-RUN mvn clean package -DskipTests
+# Set the working directory
+WORKDIR /app
 
-FROM openjdk:17
-COPY --from=build /target/planter-0.0.1.jar app.jar
+# Copy your Spring Boot application source code into the container
+COPY . /app
+
+# Build the application
+RUN ./mvnw clean package
+
+# Expose the port that your Spring Boot app listens on
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", 'app.jar']
+
+# Start the Spring Boot application
+CMD ["java", "-jar", "target/planter-0.0.1.jar"]
