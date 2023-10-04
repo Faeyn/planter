@@ -1,1 +1,9 @@
-FROM MAVEN:3.9.0- AS build
+FROM eclipse-temurin:11-jdk as builder
+
+COPY . .
+RUN mvn clean package -DskipTests
+
+FROM openjdk:17
+COPY --from=build /target/planter-0.0.1.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", 'app.jar']
