@@ -19,7 +19,6 @@ export default function Bar({
   const cssHeight = height ? `h-[${height}px]` : "h-[25px]"
   cssColor = cssColor ?? "bg-white"
 
-  console.log(cssWidth)
   return (
     <div
       onClick={onClick}

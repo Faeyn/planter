@@ -50,8 +50,6 @@ export const PlantEditor = () => {
     }
   }
 
-  console.log(plantFocus.img)
-
   return (
     <LayoutSection>
       <div className="flex relative justify-center">

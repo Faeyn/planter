@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:3000/")
+//@CrossOrigin("http://localhost:3000/")
+@CrossOrigin("https://planter-theta.vercel.app/")
+
 @RequestMapping("plant")
 public class PlantController {
     @Autowired
@@ -42,3 +44,4 @@ public class PlantController {
     }
 
 }
+

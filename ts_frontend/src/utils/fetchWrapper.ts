@@ -18,9 +18,7 @@ export class FetchWrapper {
       method: "GET",
     }
     
-    console.log(this.adress)
     const response = this.sendRequest(requestOptions).then((response) => {
-        console.log(response)
        return response?.json()
     }
     )
@@ -67,7 +65,6 @@ export class FetchWrapper {
   ): Promise<Response | undefined> {
     try {
       const response = await fetch(this.adress, requestOptions)
-      console.log(response)
       if (response.ok) {
         console.log("Request was successful!")
         return response
