@@ -17,22 +17,20 @@ services:
       - 5432
     networks:
       - planter_network
-    depends_on:
-      - java
 
-  java:
-    build: 
-      context: ./java_backend
-      dockerfile: dockerfile.backend
-    container_name: Backend
-    environment:
-      - SPRING_DATASOURCE_USERNAME=admin
-      - SPRING_DATASOURCE_PASSWORD=admin
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/planter_db
-    ports:
-      - "8080:8080"
-    networks:
-      - planter_network
+  # java:
+  #   build: 
+  #     context: ./java_backend
+  #     dockerfile: dockerfile.backend
+  #   container_name: Backend
+  #   environment:
+  #     - SPRING_DATASOURCE_USERNAME=admin
+  #     - SPRING_DATASOURCE_PASSWORD=admin
+  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/planter_db
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - planter_network
 
   # typescript:
   #   build: 
