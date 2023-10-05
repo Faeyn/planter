@@ -4,5 +4,6 @@ spring:
     password: b0Sq58i416qoY7OItC90Vvn3GFRgT5jI
     username: planter_db_user
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create
