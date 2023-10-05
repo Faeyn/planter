@@ -1,9 +1,3 @@
 spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/planter_db
-    password: admin
-    username: admin
-  jpa:
-    hibernate:
-      ddl-auto: create
+  profiles:
+    active: prod
