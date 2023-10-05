@@ -1,9 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgres://dpg-ckf6nj0l3its739fc8og-a.frankfurt-postgres.render.com/planter_db
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://dpg-ckf6nj0l3its739fc8og-a.frankfurt-postgres.render.com/planter_db
     password: b0Sq58i416qoY7OItC90Vvn3GFRgT5jI
     username: planter_db_user
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+      show-sql: true
